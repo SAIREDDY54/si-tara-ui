@@ -1,6 +1,6 @@
 import React from "react";
 
-import Lottie from 'react-lottie';
+import { Player } from '@lottiefiles/react-lottie-player';
 import successData from './lottie/success';
 import failedData from './lottie/failed';
 import { useTheme } from "@mui/material/styles";
@@ -160,23 +160,16 @@ export default function Main() {
     { id: 'DATABASES', label: 'Databases' },
   ];
 
-  const successDefault = {
-    loop: true,
-    autoplay: true,
-    animationData: successData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
+  // React.useEffect(() => {
+  //   lottie.loadAnimation({
+  //     container: document.querySelector("#success-logo"),
+  //     animationData: successData,
+  //     autoplay: true,
+  //     loop: true
+  //   });
+  // }, []);
 
-  const failedDefault = {
-    loop: true,
-    autoplay: true,
-    animationData: failedData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
+
 
   function handleOpen() {
     Axios.post("http://localhost:8080/addData", {
@@ -493,11 +486,11 @@ export default function Main() {
         disableEscapeKeyDown
       >
         <DialogTitle id="alert-dialog-title">
-          {((awsCloud.length > 0 || interfaces.length > 0 || db.length > 0 || azureCloud.length > 0) && data === "Completed") ? <div>Tara Sheet Created for {awsCloud.join(", ")+","} {azureCloud.join(", ")+","} {interfaces.join(", ")} {db.join(", ")}</div> : ""}
+          {((awsCloud.length > 0 || interfaces.length > 0 || db.length > 0 || azureCloud.length > 0) && data === "Completed") ? <div>Tara Sheet Created for {awsCloud.join(", ") + ","} {azureCloud.join(", ") + ","} {interfaces.join(", ")} {db.join(", ")}</div> : ""}
 
         </DialogTitle>
         <DialogContent>
-          {data === "Completed" ? <Lottie options={successDefault} height={200} width={200} /> : <Lottie options={failedDefault} height={200} width={200} />}
+          {data === "Completed" ? <Player src='https://assets5.lottiefiles.com/packages/lf20_pqnfmone.json' loop autoplay style={{ height: '200px', width: '200px' }}/> : <Player src='https://assets1.lottiefiles.com/packages/lf20_tl52xzvn.json' loop autoplay style={{ height: '200px', width: '200px' }}/>}
         </DialogContent>
         <DialogActions>
           <Button
