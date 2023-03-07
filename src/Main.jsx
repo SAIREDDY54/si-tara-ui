@@ -1,25 +1,22 @@
 import React from "react";
 
 import { Player } from '@lottiefiles/react-lottie-player';
-import successData from './lottie/success';
-import failedData from './lottie/failed';
 import { useTheme } from "@mui/material/styles";
+import Appbar from "./Pages/Appbar";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
 import Paper from "@mui/material/Paper";
 import Axios from "axios";
 import BOSCH from "../src/img/bosch.png";
-import TALE from "../src/img/talebg.png"
 import random from 'random-key-generator';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import ListSubheader from '@mui/material/ListSubheader';
 
 import {
   Button,
@@ -31,8 +28,6 @@ import {
   ListItemText,
   Stack,
 } from "@mui/material";
-
-
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -57,7 +52,8 @@ const aws_assets = [
   "S3",
   "EC2",
   "DATALAKE",
-  "Beanstalk"
+  "Beanstalk",
+  "Beanstalk",
 ];
 
 const azure_assets = [
@@ -87,7 +83,9 @@ export default function Main() {
   const [awsCloud, setAwsCloud] = React.useState([]);
   const [azureCloud, setAzureCloud] = React.useState([]);
   const [db, setDB] = React.useState([]);
+  const email = localStorage.getItem("email");
 
+  console.log(email)
 
   const handleChange = (event) => {
     const {
@@ -155,8 +153,7 @@ export default function Main() {
 
 
   const options = [
-    { id: 'AWS', label: 'AWS Cloud' },
-    { id: 'AZURE', label: 'Azure Cloud' },
+    { id: 'Cloud', label: 'Cloud' },
     { id: 'DATABASES', label: 'Databases' },
   ];
 
@@ -177,7 +174,8 @@ export default function Main() {
       "awsAssets": (awsCloud.length > 0) ? awsCloud : "",
       "azureAssets": (azureCloud.length > 0) ? azureCloud : "",
       "DBAssets": (db.length > 0) ? db : "",
-      "sessionId": random.getRandom(20, 'TARA', '@', 'front')
+      "sessionId": random.getRandom(20, 'TARA', '@', 'front'),
+      "email": localStorage.getItem("email")
     }, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } })
 
     // Axios.post("http://localhost:8080/awsCloud", {
@@ -237,19 +235,28 @@ export default function Main() {
     setDB([]);
     setValue([]);
   }
-
   return (
+
+
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <AppBar position="fixed">
+      {/* <AppBar position="fixed">
         <Toolbar>
           <img src={TALE} style={{ height: "50px", maxWidth: "50%", float: "right", marginRight: "10px", marginTop: "5px" }} />
           <h3 style={{ float: "left" }}>Si-TARA</h3>
 
 
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
+
+      <Appbar />
+
+
+
+      {/* <Link to={'/register'} >Register</Link>
+      <Link to={'/login'} >Login</Link> */}
 
       <Stack direction="row" alignItems="center">
+
         <Stack direction="column" alignItems="center">
           <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="demo-multiple-name-label">
@@ -297,43 +304,43 @@ export default function Main() {
 
           >
             {value.map(option => {
-              if (option === "AWS") {
+              // if (option === "AWS") {
+              //   return (
+              //     <div>
+              //       <FormControl sx={{ m: 1, width: 300, marginTop: "12px" }}>
+              //         <InputLabel id="demo-multiple-name-label">
+              //           Select AWS Assets
+              //         </InputLabel>
+              //         <Select
+              //           style={{ zIndex: 2 }}
+              //           labelId="demo-multiple-name-label"
+              //           id="demo-multiple-name"
+              //           multiple
+              //           value={awsCloud}
+              //           onChange={awsAssetChange}
+              //           input={<OutlinedInput label="Select AWS Assets" />}
+              //           MenuProps={MenuProps}
+              //         >
+              //           {aws_assets.map((name) => (
+              //             <MenuItem
+              //               key={name}
+              //               value={name}
+              //               style={getStyles(name, awsCloud, theme)}
+              //             >
+              //               {name}
+              //             </MenuItem>
+              //           ))}
+              //         </Select>
+              //       </FormControl>
+              //     </div>
+              //   );
+              // }
+              if (option === "Cloud") {
                 return (
                   <div>
                     <FormControl sx={{ m: 1, width: 300, marginTop: "12px" }}>
                       <InputLabel id="demo-multiple-name-label">
-                        Select AWS Assets
-                      </InputLabel>
-                      <Select
-                        style={{ zIndex: 2 }}
-                        labelId="demo-multiple-name-label"
-                        id="demo-multiple-name"
-                        multiple
-                        value={awsCloud}
-                        onChange={awsAssetChange}
-                        input={<OutlinedInput label="Select AWS Assets" />}
-                        MenuProps={MenuProps}
-                      >
-                        {aws_assets.map((name) => (
-                          <MenuItem
-                            key={name}
-                            value={name}
-                            style={getStyles(name, awsCloud, theme)}
-                          >
-                            {name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
-                );
-              }
-              if (option === "AZURE") {
-                return (
-                  <div>
-                    <FormControl sx={{ m: 1, width: 300, marginTop: "12px" }}>
-                      <InputLabel id="demo-multiple-name-label">
-                        Select Azure Assets
+                        Select Cloud Assets
                       </InputLabel>
                       <Select
                         style={{ zIndex: 2 }}
@@ -345,11 +352,22 @@ export default function Main() {
                         input={<OutlinedInput label="Select Azure Assets" />}
                         MenuProps={MenuProps}
                       >
+                        <ListSubheader style={{fontWeight: "bold", fontSize: "20px", color: "black"}}>Azure</ListSubheader>
                         {azure_assets.map((name) => (
                           <MenuItem
                             key={name}
                             value={name}
                             style={getStyles(name, azureCloud, theme)}
+                          >
+                            {name}
+                          </MenuItem>
+                        ))}
+                        <ListSubheader>AWS</ListSubheader>
+                        {aws_assets.map((name) => (
+                          <MenuItem
+                            key={name}
+                            value={name}
+                            style={getStyles(name, awsCloud, theme)}
                           >
                             {name}
                           </MenuItem>
@@ -490,7 +508,7 @@ export default function Main() {
 
         </DialogTitle>
         <DialogContent>
-          {data === "Completed" ? <Player src='https://assets5.lottiefiles.com/packages/lf20_pqnfmone.json' loop autoplay style={{ height: '200px', width: '200px' }}/> : <Player src='https://assets1.lottiefiles.com/packages/lf20_tl52xzvn.json' loop autoplay style={{ height: '200px', width: '200px' }}/>}
+          {data === "Completed" ? <Player src='https://assets5.lottiefiles.com/packages/lf20_pqnfmone.json' loop autoplay style={{ height: '250px', width: '250px' }} /> : <Player src='https://assets1.lottiefiles.com/packages/lf20_tl52xzvn.json' loop autoplay style={{ height: '250px', width: '250px' }} />}
         </DialogContent>
         <DialogActions>
           <Button
@@ -527,6 +545,5 @@ export default function Main() {
         elevation={3}
       ><img src={BOSCH} style={{ height: "50px", maxWidth: "50%", float: "right", marginRight: "10px", marginTop: "5px" }} /></Paper>
     </div >
-
   );
 }
